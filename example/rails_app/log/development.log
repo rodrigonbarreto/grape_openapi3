@@ -1,0 +1,161 @@
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='RailsApp'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='RailsApp'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-06-14 20:04:01.866686', '2026-06-14 20:04:01.866688') RETURNING "key" /*application='RailsApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RailsApp'*/[0m
+Migrating to CreateProducts (20260614200331)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "products" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "description" text, "price" decimal(10,2) NOT NULL, "stock" integer DEFAULT 0 NOT NULL, "category" varchar, "active" boolean DEFAULT 1 NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='RailsApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260614200331') RETURNING "version" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RailsApp'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (1.8ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Enormous Paper Knife' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.2ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Enormous Paper Knife', 'Odio in accusamus et voluptatum quidem doloribus debitis recusandae consequatur aut eaque.', 634.8, 118, 'Clothing', 1, '2026-06-14 20:06:46.221542', '2026-06-14 20:06:46.221542') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Awesome Marble Plate' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.6ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Awesome Marble Plate', 'Aut quae qui placeat id ut doloribus qui nobis deserunt reiciendis delectus.', 766.8, 172, 'Books', 1, '2026-06-14 20:06:46.224490', '2026-06-14 20:06:46.224490') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Awesome Steel Watch' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.6ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Awesome Steel Watch', 'Accusamus amet officia praesentium enim et velit nisi impedit veritatis qui qui.', 604.0, 178, 'Sports', 1, '2026-06-14 20:06:46.227047', '2026-06-14 20:06:46.227047') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Durable Rubber Bag' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.6ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Durable Rubber Bag', 'Enim reiciendis unde consequatur blanditiis adipisci praesentium ipsam illum impedit ipsum labore.', 426.16, 54, 'Electronics', 0, '2026-06-14 20:06:46.229654', '2026-06-14 20:06:46.229654') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Durable Granite Car' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.5ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Durable Granite Car', 'Optio aliquam possimus qui quis ad eius repellat consequatur a quia omnis.', 224.96, 141, 'Books', 1, '2026-06-14 20:06:46.231943', '2026-06-14 20:06:46.231943') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Intelligent Wooden Car' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.5ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Intelligent Wooden Car', 'Laudantium maiores reprehenderit et id sequi delectus dolorum aliquam veniam eum sit.', 853.66, 171, 'Electronics', 0, '2026-06-14 20:06:46.234011', '2026-06-14 20:06:46.234011') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Durable Aluminum Wallet' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.6ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Durable Aluminum Wallet', 'Nisi id praesentium quos non consequatur qui velit modi ut perferendis omnis.', 157.54, 7, 'Electronics', 1, '2026-06-14 20:06:46.236765', '2026-06-14 20:06:46.236765') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Incredible Steel Chair' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Incredible Steel Chair', 'Qui itaque et dolor quas sed porro qui esse et est ipsam.', 761.2, 151, 'Clothing', 1, '2026-06-14 20:06:46.239241', '2026-06-14 20:06:46.239241') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Heavy Duty Linen Bag' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.5ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Heavy Duty Linen Bag', 'Dolorem non et dolor voluptatem dolorum sapiente nobis dolor quisquam sequi iste.', 949.21, 80, 'Clothing', 1, '2026-06-14 20:06:46.241206', '2026-06-14 20:06:46.241206') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Practical Bronze Keyboard' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Practical Bronze Keyboard', 'Voluptas sunt aspernatur quo illum qui exercitationem porro repudiandae nihil et sit.', 513.87, 20, 'Food', 1, '2026-06-14 20:06:46.243165', '2026-06-14 20:06:46.243165') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Gorgeous Bronze Bag' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.5ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Gorgeous Bronze Bag', 'In placeat vitae facere illum a aliquam maiores magnam quod similique voluptatem.', 714.34, 29, 'Food', 1, '2026-06-14 20:06:46.244810', '2026-06-14 20:06:46.244810') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Small Wooden Chair' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Small Wooden Chair', 'Quis voluptas tempora et sunt eveniet unde omnis aut dolore ipsum quod.', 882.71, 86, 'Food', 1, '2026-06-14 20:06:46.246660', '2026-06-14 20:06:46.246660') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Incredible Copper Bench' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Incredible Copper Bench', 'Animi reiciendis autem voluptas architecto suscipit veniam laudantium est eum ipsum aliquam.', 277.64, 12, 'Electronics', 1, '2026-06-14 20:06:46.248261', '2026-06-14 20:06:46.248261') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Mediocre Wool Plate' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.5ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Mediocre Wool Plate', 'Sunt voluptatem excepturi praesentium ratione eos impedit laboriosam explicabo tempore fuga autem.', 56.19, 49, 'Food', 1, '2026-06-14 20:06:46.249948', '2026-06-14 20:06:46.249948') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Heavy Duty Concrete Coat' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (4.6ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Heavy Duty Concrete Coat', 'Nostrum quae dolorem cupiditate et iure recusandae voluptatem quas dolor molestiae illum.', 225.3, 138, 'Electronics', 0, '2026-06-14 20:06:46.251907', '2026-06-14 20:06:46.251907') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Heavy Duty Iron Clock' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Heavy Duty Iron Clock', 'Vitae tenetur officiis facilis est cupiditate doloribus accusantium culpa excepturi iste nisi.', 407.46, 44, 'Sports', 1, '2026-06-14 20:06:46.258070', '2026-06-14 20:06:46.258070') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Enormous Granite Knife' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Enormous Granite Knife', 'Et ab iure velit nostrum repellendus praesentium nihil asperiores reprehenderit aut ut.', 769.33, 8, 'Sports', 1, '2026-06-14 20:06:46.260074', '2026-06-14 20:06:46.260074') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Incredible Marble Shirt' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.5ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Incredible Marble Shirt', 'Corrupti ducimus nobis similique aperiam dolores ut eius alias aut et aspernatur.', 921.1, 143, 'Sports', 0, '2026-06-14 20:06:46.261869', '2026-06-14 20:06:46.261869') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Small Leather Hat' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Small Leather Hat', 'Odio ipsa corporis quos qui doloremque dolor id quae aut esse quia.', 734.35, 132, 'Clothing', 0, '2026-06-14 20:06:46.264596', '2026-06-14 20:06:46.264596') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."name" = 'Lightweight Concrete Knife' LIMIT 1 /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Lightweight Concrete Knife', 'Voluptas accusantium iste voluptatem quis nisi saepe explicabo nulla ipsum sit libero.', 217.13, 33, 'Food', 0, '2026-06-14 20:06:46.266355', '2026-06-14 20:06:46.266355') RETURNING "id" /*application='RailsApp'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  [1m[36mProduct Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "products" /*application='RailsApp'*/[0m
+Started GET "/up" for ::1 at 2026-06-14 21:07:45 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RailsApp'*/[0m
+Processing by Rails::HealthController#show as */*
+  Rendering html template
+  Rendered html template (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 18ms (Views: 12.8ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/api/v1/products" for ::1 at 2026-06-14 21:07:49 +0100
+  [1m[36mProduct Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "products" /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:9:in `paginate'
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" LIMIT 20 OFFSET 0 /*application='RailsApp'*/[0m
+Started POST "/api/v1/products" for ::1 at 2026-06-14 21:07:59 +0100
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:93:in `block (2 levels) in <class:Products>'
+  [1m[36mProduct Create (1.2ms)[0m  [1m[32mINSERT INTO "products" ("name", "description", "price", "stock", "category", "active", "created_at", "updated_at") VALUES ('Test Product', NULL, 29.99, 50, 'Electronics', 1, '2026-06-14 20:07:59.148001', '2026-06-14 20:07:59.148001') RETURNING "id" /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:93:in `block (2 levels) in <class:Products>'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:93:in `block (2 levels) in <class:Products>'
+Started GET "/api/v1/products/1" for ::1 at 2026-06-14 21:07:59 +0100
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 1 LIMIT 1 /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:14:in `find_product!'
+Started DELETE "/api/v1/products/1" for ::1 at 2026-06-14 21:07:59 +0100
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 1 LIMIT 1 /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:14:in `find_product!'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:147:in `block (2 levels) in <class:Products>'
+  [1m[36mProduct Destroy (0.5ms)[0m  [1m[31mDELETE FROM "products" WHERE "products"."id" = 1 /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:147:in `block (2 levels) in <class:Products>'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:147:in `block (2 levels) in <class:Products>'
+Started GET "/" for 127.0.0.1 at 2026-06-14 21:12:18 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RailsApp'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/rodrigo/.asdf/installs/ruby/3.3.0/lib/ruby/gems/3.3.0/gems/railties-8.0.5/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/rodrigo/.asdf/installs/ruby/3.3.0/lib/ruby/gems/3.3.0/gems/railties-8.0.5/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 129ms (Views: 2.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 14.7ms)
+
+
+Started GET "/icon.png" for 127.0.0.1 at 2026-06-14 21:12:18 +0100
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started GET "/api/products" for 127.0.0.1 at 2026-06-14 21:12:24 +0100
+  
+ActionController::RoutingError (No route matches [GET] "/api/products"):
+  
+Started GET "/favicon.ico" for 127.0.0.1 at 2026-06-14 21:12:25 +0100
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/api/v1/products" for 127.0.0.1 at 2026-06-14 21:12:43 +0100
+  [1m[36mProduct Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "products" /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:9:in `paginate'
+  [1m[36mProduct Load (0.2ms)[0m  [1m[34mSELECT "products".* FROM "products" LIMIT 20 OFFSET 0 /*application='RailsApp'*/[0m
+Started GET "/api/v1/api/%7Bversion%7D/products" for ::1 at 2026-06-14 21:13:58 +0100
+  
+ActionController::RoutingError (No route matches [GET] "/api/v1/api/%7Bversion%7D/products"):
+  
+Started GET "/api/v1/products" for 127.0.0.1 at 2026-06-14 21:28:26 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='RailsApp'*/[0m
+  [1m[36mProduct Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "products" /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:9:in `paginate'
+  [1m[36mProduct Load (0.1ms)[0m  [1m[34mSELECT "products".* FROM "products" LIMIT 20 OFFSET 0 /*application='RailsApp'*/[0m
+Started GET "/api/v1/products" for 127.0.0.1 at 2026-06-14 21:30:24 +0100
+  [1m[36mProduct Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "products" /*application='RailsApp'*/[0m
+  ↳ app/api/v1/products.rb:9:in `paginate'
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT "products".* FROM "products" LIMIT 20 OFFSET 0 /*application='RailsApp'*/[0m

@@ -1,0 +1,410 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Products API",
+    "version": "v1",
+    "description": "A CRUD API for products, built with Grape + Rails."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "products",
+      "description": "Product management"
+    }
+  ],
+  "paths": {
+    "/api/v1/products": {
+      "get": {
+        "operationId": "listProducts",
+        "summary": "List all products",
+        "description": "Returns a paginated list of products. Supports filtering by name, category, and active status.",
+        "tags": [
+          "products"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number (default: 1)"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Items per page (max: 100)"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by name or description"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by category"
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter by active status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductListEntity"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createProduct",
+        "summary": "Create a product",
+        "description": "Creates a new product. Name, price and stock are required.",
+        "tags": [
+          "products"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Product name"
+                  },
+                  "price": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Price in USD"
+                  },
+                  "stock": {
+                    "type": "integer",
+                    "description": "Initial stock quantity"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Full description"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category name"
+                  },
+                  "active": {
+                    "type": "boolean",
+                    "description": "Active status (default: true)"
+                  }
+                },
+                "required": [
+                  "name",
+                  "price",
+                  "stock"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductEntity"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "operationId": "getProduct",
+        "summary": "Get a product",
+        "description": "Returns a single product by its ID.",
+        "tags": [
+          "products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Product ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductEntity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateProduct",
+        "summary": "Update a product",
+        "description": "Partially updates a product. Only the provided fields are changed.",
+        "tags": [
+          "products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Product ID"
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Product name"
+                  },
+                  "price": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Price in USD"
+                  },
+                  "stock": {
+                    "type": "integer",
+                    "description": "Stock quantity"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Full description"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category name"
+                  },
+                  "active": {
+                    "type": "boolean",
+                    "description": "Active status"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductEntity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteProduct",
+        "summary": "Delete a product",
+        "description": "Permanently deletes a product. This action cannot be undone.",
+        "tags": [
+          "products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Product ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProductListEntity": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductEntity"
+            },
+            "description": "Products"
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of records"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Current page"
+          },
+          "pages": {
+            "type": "integer",
+            "description": "Total pages"
+          }
+        },
+        "required": [
+          "data",
+          "total",
+          "page",
+          "pages"
+        ]
+      },
+      "ProductEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Product ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Product name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Full description",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "description": "Price in USD"
+          },
+          "stock": {
+            "type": "integer",
+            "description": "Units in stock"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product category",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the product is active"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "price",
+          "stock",
+          "active"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Pass your JWT token in the Authorization header."
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+
+      ]
+    }
+  ]
+}

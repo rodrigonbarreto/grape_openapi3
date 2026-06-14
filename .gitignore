@@ -1,0 +1,58 @@
+/.bundle/
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+.rspec_status
+*.gem
+.idea
+.DS_Store
+
+
+# Ignore bundler config.
+/.bundle
+.tool-versions
+# Ignore all environment files (except templates).
+/.env*
+!/.env*.erb
+!/.env*.example
+ruby_test.rb
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+interview_practice.rb
+.idea
+coverage/
+
+.DS_Store
+.latest.dump
+latest.dump
+/backups/
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+
+/public/assets
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+/config/credentials/production.key
+
+/config/credentials/staging.key
+
+/config/credentials/development.key
+
+# Personal docs/notes
