@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "lib/grape_openapi3/version"
-
 Gem::Specification.new do |spec|
   spec.name        = "grape_openapi3"
-  spec.version     = GrapeOpenapi3::VERSION
+  spec.version     = "0.1.2"
   spec.authors     = ["rodrigonbarreto"]
   spec.email       = ["rodrigonbarreto@gmail.com"]
 

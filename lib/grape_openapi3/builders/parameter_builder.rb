@@ -57,6 +57,9 @@ module GrapeOpenapi3
       private
 
       def location(name, defn)
+        # Path segments are structural — they always win over any explicit hint.
+        return :path if @path_names.include?(name)
+
         explicit = defn.dig(:documentation, :param_type)&.to_s ||
                    defn.dig(:documentation, :in)&.to_s
 
@@ -68,8 +71,7 @@ module GrapeOpenapi3
         when "formData"  then return :form
         end
 
-        return :path  if @path_names.include?(name)
-        return :form  if file_type?(defn[:type])
+        return :form if file_type?(defn[:type])
         BODY_METHODS.include?(@method) ? :body : :query
       end
 
@@ -116,8 +118,9 @@ module GrapeOpenapi3
 
         params.each do |name, defn|
           schema = TypeMapper.call(defn[:type] || String)
-          schema["enum"]    = Array(defn[:values]) if defn[:values]
-          schema["default"] = defn[:default]       unless defn[:default].nil?
+          schema["enum"]     = Array(defn[:values]) if defn[:values]
+          schema["default"]  = defn[:default]       unless defn[:default].nil?
+          schema["nullable"] = true                 unless defn[:required]
 
           desc = defn[:desc] || defn[:description]
           schema["description"] = desc.to_s if desc
