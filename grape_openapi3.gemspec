@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name        = "grape_openapi3"
-  spec.version     = "0.1.2"
+  spec.version     = "0.1.3"
   spec.authors     = ["rodrigonbarreto"]
   spec.email       = ["rodrigonbarreto@gmail.com"]
 
