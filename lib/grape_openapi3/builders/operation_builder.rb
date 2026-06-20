@@ -40,9 +40,8 @@ module GrapeOpenapi3
         responses[success_code] = build_success_response
 
         @route[:failure_codes].each do |info|
-          code    = (info[:code] || info["code"]).to_s
-          message = info[:message] || info["message"] || ""
-          responses[code] = { "description" => message }
+          code = (info[:code] || info["code"]).to_s
+          responses[code] = build_failure_response(info)
         end
 
         # Add 401 automatically when the API uses security and the route hasn't
@@ -83,22 +82,37 @@ module GrapeOpenapi3
 
         # Unpack hash form: { code: 201, message: "Created", model: ProductEntity, schema: {...} }
         description, entity_class, inline_schema = unpack_success(entity)
+        build_response(description, entity_class, inline_schema, is_array: @route[:is_array])
+      end
+
+      # A failure entry may carry a typed body, e.g.
+      #   failure: [{ code: 422, message: "Validation error", model: ErrorEntity }]
+      #   failure: [{ code: 404, message: "Not found", schema: { ... } }]
+      # Without :model/:schema it stays a bare { "description" => message }.
+      def build_failure_response(info)
+        message       = info[:message] || info["message"] || ""
+        model         = info[:model]   || info["model"]
+        inline_schema = info[:schema]  || info["schema"]
+        is_array      = info[:is_array] || info["is_array"] || false
+
+        build_response(message, (model if model.is_a?(Class)), inline_schema, is_array: is_array)
+      end
+
+      # Shared builder for success and failure responses.
+      def build_response(description, entity_class, inline_schema, is_array:)
+        media = @route[:produces].first || "application/json"
 
         if inline_schema
-          media = @route[:produces].first || "application/json"
           return { "description" => description, "content" => { media => { "schema" => inline_schema } } }
         end
 
-        unless entity_class
-          return { "description" => description }
-        end
+        return { "description" => description } unless entity_class
 
         schema_name = @entity_reader.register(entity_class)
         return { "description" => description } unless schema_name
 
         ref    = { "$ref" => "#/components/schemas/#{schema_name}" }
-        schema = @route[:is_array] ? { "type" => "array", "items" => ref } : ref
-        media  = @route[:produces].first || "application/json"
+        schema = is_array ? { "type" => "array", "items" => ref } : ref
 
         { "description" => description, "content" => { media => { "schema" => schema } } }
       end

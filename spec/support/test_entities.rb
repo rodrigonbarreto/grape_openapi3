@@ -32,4 +32,9 @@ module TestEntities
     expose :data,  using: UserEntity, documentation: { is_array: true, desc: "Users",       required: true }
     expose :total,                    documentation: { type: Integer,  desc: "Total count", required: true }
   end
+
+  class ErrorEntity < Grape::Entity
+    expose :code,    documentation: { type: Integer, desc: "Error code",    required: true }
+    expose :message, documentation: { type: String,  desc: "Error message", required: true }
+  end
 end

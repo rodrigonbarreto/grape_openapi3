@@ -12,6 +12,7 @@ module V1
       error!({ errors: e.full_messages }, 422)
     end
 
+    mount V1::OpenapiDoc
     mount V1::Products
   end
 end

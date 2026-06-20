@@ -57,7 +57,7 @@ module V1
       desc "Get a product", {
         success: { code: 200, model: Entities::ProductEntity, message: "Product returned successfully." },
         failure: [
-          { code: 404, message: "Product not found" },
+          { code: 404, message: "Product not found", model: Entities::ErrorEntity },
         ],
         detail: "Returns a single product by its ID.",
         tags:   ["products"],
@@ -72,7 +72,7 @@ module V1
       desc "Create a product", {
         success: { code: 201, model: Entities::ProductEntity, message: "Product created successfully." },
         failure: [
-          { code: 422, message: "Validation error" },
+          { code: 422, message: "Validation error", model: Entities::ValidationErrorEntity },
         ],
         detail: "Creates a new product. Name, price and stock are required.",
         tags:   ["products"],
@@ -105,8 +105,8 @@ module V1
       desc "Update a product", {
         success: { code: 200, model: Entities::ProductEntity, message: "Product updated successfully." },
         failure: [
-          { code: 404, message: "Product not found" },
-          { code: 422, message: "Validation error" },
+          { code: 404, message: "Product not found", model: Entities::ErrorEntity },
+          { code: 422, message: "Validation error", model: Entities::ValidationErrorEntity },
         ],
         detail: "Partially updates a product. Only the provided fields are changed.",
         tags:   ["products"],
@@ -142,7 +142,7 @@ module V1
 
       desc "Delete a product", {
         failure: [
-          { code: 404, message: "Product not found" },
+          { code: 404, message: "Product not found", model: Entities::ErrorEntity },
         ],
         detail: "Permanently deletes a product. This action cannot be undone.",
         tags:   ["products"],

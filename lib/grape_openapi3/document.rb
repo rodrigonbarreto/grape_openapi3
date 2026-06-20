@@ -22,7 +22,7 @@ module GrapeOpenapi3
         .compact
 
       # Pre-scan all reachable entities so schema names are stable and collision-free.
-      entity_reader.prepare(route_list.flat_map { |rd| success_entity_classes(rd) })
+      entity_reader.prepare(route_list.flat_map { |rd| referenced_entity_classes(rd) })
 
       paths      = build_paths(route_list, entity_reader)
       components = build_components(entity_reader)
@@ -42,16 +42,25 @@ module GrapeOpenapi3
 
     private
 
-    # The Grape::Entity class(es) referenced by a route's success response, if any.
-    # Handles both the bare-class form and the hash form ({ model: SomeEntity }).
-    def success_entity_classes(route_data)
-      entity = route_data[:success_entity]
-      klass  = if entity.is_a?(Class)
-                 entity
-               elsif entity.is_a?(Hash)
-                 entity[:model] || entity["model"]
-               end
-      klass.is_a?(Class) ? [klass] : []
+    # Every Grape::Entity class referenced by a route — success AND failure
+    # responses — so the pre-scan can assign collision-free names to all of them.
+    def referenced_entity_classes(route_data)
+      classes = [entity_class_of(route_data[:success_entity])]
+      Array(route_data[:failure_codes]).each do |info|
+        classes << entity_class_of(info) if info.is_a?(Hash)
+      end
+      classes.compact
+    end
+
+    # Extracts a Grape::Entity class from the bare-class form or the hash form
+    # ({ model: SomeEntity }). Returns nil when there is none.
+    def entity_class_of(entity)
+      klass = if entity.is_a?(Class)
+                entity
+              elsif entity.is_a?(Hash)
+                entity[:model] || entity["model"]
+              end
+      klass if klass.is_a?(Class)
     end
 
     def build_paths(route_list, entity_reader)

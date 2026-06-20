@@ -158,7 +158,14 @@
             }
           },
           "422": {
-            "description": "Validation error"
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorEntity"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -198,7 +205,14 @@
             }
           },
           "404": {
-            "description": "Product not found"
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEntity"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -279,10 +293,24 @@
             }
           },
           "404": {
-            "description": "Product not found"
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEntity"
+                }
+              }
+            }
           },
           "422": {
-            "description": "Validation error"
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorEntity"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -313,7 +341,14 @@
             "description": "Success"
           },
           "404": {
-            "description": "Product not found"
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEntity"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -426,6 +461,33 @@
         "required": [
           "id",
           "name"
+        ]
+      },
+      "ErrorEntity": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "ValidationErrorEntity": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of validation messages"
+          }
+        },
+        "required": [
+          "errors"
         ]
       }
     },

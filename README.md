@@ -107,6 +107,24 @@ success: { code: 200, message: "Done." }
 success: { code: 201, model: Entities::ProductEntity, message: "Product created." }
 ```
 
+### Failure options (typed error responses)
+
+Error responses can carry a schema too — point them at a `Grape::Entity` with
+`model:` (or an inline OpenAPI schema with `schema:`). Without either, a failure
+stays a plain description.
+
+```ruby
+failure: [
+  { code: 401, message: "Unauthorized" },                                  # description only
+  { code: 404, message: "Not found",   model: Entities::ErrorEntity },     # $ref to a schema
+  { code: 422, message: "Validation",  model: Entities::ValidationErrorEntity },
+  { code: 409, message: "Conflict",    schema: { type: "object", properties: { code: { type: "string" } } } },
+]
+```
+
+This lets an OpenAPI → TypeScript/Zod codegen type your error payloads, not just
+the success body.
+
 ### Params via params do block
 
 ```ruby
@@ -244,23 +262,51 @@ Rails serves `public/` as static files automatically. Navigate to `http://localh
 
 ## Example project
 
-The `example/rails_app/` folder contains a full Rails 8 + Grape API with a products CRUD — the same setup described in this README, ready to run:
+The `example/rails_app/` folder is a complete, runnable **Rails 8 + Grape** API you
+can use to see everything in action. It models a small real-world domain:
+
+- **`Product`** — CRUD resource (`/api/v1/products`)
+- **`Category`** — `Product belongs_to :category`, exposed as a **nested entity**
+- **Typed errors** — `404`/`422` responses carry `ErrorEntity` / `ValidationErrorEntity`
+- **Live docs** — the OpenAPI JSON is served dynamically by a mounted endpoint
+  (`V1::OpenapiDoc`), no build step required
+
+### Run it
 
 ```bash
 cd example/rails_app
 bundle install
-rails db:create db:migrate db:seed
-rails server
-
-# API live at:
-#   http://localhost:3000/api/v1/products
-
-# Generate the docs:
-bundle exec rake openapi:generate
-
-# View Swagger UI:
-#   http://localhost:3000/swagger.html
+bin/rails db:prepare        # create + migrate + seed (5 categories, 20 products)
+bin/rails server
 ```
+
+### What to open
+
+| URL | What you get |
+|---|---|
+| `http://localhost:3000/swagger.html` | **Swagger UI** — browse and try every endpoint |
+| `http://localhost:3000/api/v1/openapi` | the **OpenAPI 3.0 JSON**, generated live from the routes |
+| `http://localhost:3000/api/v1/products` | the actual API — note `category` comes back as `{ id, name }` |
+
+### Things to notice in the docs
+
+- `ProductEntity.category` is a `$ref` to `CategoryEntity` (the `belongs_to`).
+- `POST /api/v1/products` shows the `404`/`422` responses with **typed bodies**.
+- Edit an entity or route, refresh `/swagger.html` — the doc updates immediately
+  (it's generated per request; no rake step needed).
+
+### Static doc (optional)
+
+If you'd rather serve a static file (e.g. for hosting), there's also a rake task:
+
+```bash
+bundle exec rake openapi:generate           # writes public/openapi.json
+OPENAPI_SERVER_URL=https://api.example.com/api/v1 bundle exec rake openapi:generate
+```
+
+There's also a dependency-free plain-Grape example at `example/` (run
+`bundle exec ruby example/generate.rb` to produce `example/openapi.json`), which
+additionally showcases nested params and the collision-free schema naming.
 
 ---
 
