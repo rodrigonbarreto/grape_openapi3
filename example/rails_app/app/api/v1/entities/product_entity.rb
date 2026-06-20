@@ -6,10 +6,11 @@ module V1
       expose :description, documentation: { type: String,  desc: "Full description", nullable: true }
       expose :price,       documentation: { type: Float,   desc: "Price in USD", required: true }
       expose :stock,       documentation: { type: Integer, desc: "Units in stock", required: true }
-      expose :category,    documentation: { type: String,  desc: "Product category", nullable: true }
+      expose :category,    using: CategoryEntity,
+                           documentation: { desc: "Product category", nullable: true }
       expose :active,      documentation: { type: :boolean, desc: "Whether the product is active", required: true }
-      expose :created_at,  documentation: { type: DateTime, desc: "Creation timestamp" }
-      expose :updated_at,  documentation: { type: DateTime, desc: "Last update timestamp" }
+      expose :created_at,  documentation: { type: String, desc: "Creation timestamp", format: "date-time" }
+      expose :updated_at,  documentation: { type: String, desc: "Last update timestamp", format: "date-time" }
     end
   end
 end

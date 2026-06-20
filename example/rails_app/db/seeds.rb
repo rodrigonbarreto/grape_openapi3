@@ -1,9 +1,11 @@
 require "faker"
 
+puts "Seeding categories..."
+category_names = %w[Electronics Clothing Books Sports Food]
+categories = category_names.map { |name| Category.find_or_create_by!(name: name) }
+puts "  #{Category.count} categories ready."
+
 puts "Seeding products..."
-
-categories = %w[Electronics Clothing Books Sports Food]
-
 20.times do
   Product.find_or_create_by!(name: Faker::Commerce.product_name) do |p|
     p.description = Faker::Lorem.sentence(word_count: 12)

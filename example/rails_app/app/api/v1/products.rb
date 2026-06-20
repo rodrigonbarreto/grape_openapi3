@@ -29,21 +29,21 @@ module V1
           page:        { type: Integer, desc: "Page number (default: 1)" },
           per_page:    { type: Integer, desc: "Items per page (max: 100)" },
           search:      { type: String,  desc: "Filter by name or description" },
-          category:    { type: String,  desc: "Filter by category" },
+          category_id: { type: Integer, desc: "Filter by category ID" },
           active:      { type: Grape::API::Boolean, desc: "Filter by active status" },
         }
       }
       params do
         optional :page,     type: Integer
         optional :per_page, type: Integer
-        optional :search,   type: String
-        optional :category, type: String
-        optional :active,   type: Grape::API::Boolean
+        optional :search,     type: String
+        optional :category_id, type: Integer
+        optional :active,      type: Grape::API::Boolean
       end
       get do
         scope = Product.all
         scope = scope.search(params[:search])
-        scope = scope.by_category(params[:category])
+        scope = scope.by_category(params[:category_id])
         scope = scope.where(active: params[:active]) unless params[:active].nil?
 
         records, total, page, pages = paginate(scope)
@@ -81,7 +81,7 @@ module V1
           price:       { type: Float,   required: true, desc: "Price in USD" },
           stock:       { type: Integer, required: true, desc: "Initial stock quantity" },
           description: { type: String,  desc: "Full description" },
-          category:    { type: String,  desc: "Category name" },
+          category_id: { type: Integer, desc: "Category ID" },
           active:      { type: Grape::API::Boolean, desc: "Active status (default: true)" },
         }
       }
@@ -90,11 +90,11 @@ module V1
         requires :price, type: BigDecimal
         requires :stock, type: Integer
         optional :description, type: String
-        optional :category,    type: String
+        optional :category_id, type: Integer
         optional :active,      type: Grape::API::Boolean, default: true
       end
       post do
-        product = Product.new(params.slice(:name, :price, :stock, :description, :category, :active))
+        product = Product.new(params.slice(:name, :price, :stock, :description, :category_id, :active))
         if product.save
           present product, with: Entities::ProductEntity
         else
@@ -115,7 +115,7 @@ module V1
           price:       { type: Float,   desc: "Price in USD" },
           stock:       { type: Integer, desc: "Stock quantity" },
           description: { type: String,  desc: "Full description" },
-          category:    { type: String,  desc: "Category name" },
+          category_id: { type: Integer, desc: "Category ID" },
           active:      { type: Grape::API::Boolean, desc: "Active status" },
         }
       }
@@ -126,12 +126,12 @@ module V1
         optional :price,       type: BigDecimal
         optional :stock,       type: Integer
         optional :description, type: String
-        optional :category,    type: String
+        optional :category_id, type: Integer
         optional :active,      type: Grape::API::Boolean
       end
       put ":id" do
         product = find_product!
-        attrs   = params.slice(:name, :price, :stock, :description, :category, :active)
+        attrs   = params.slice(:name, :price, :stock, :description, :category_id, :active)
                         .reject { |_, v| v.nil? }
         if product.update(attrs)
           present product, with: Entities::ProductEntity

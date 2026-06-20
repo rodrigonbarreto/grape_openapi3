@@ -55,5 +55,11 @@ latest.dump
 
 /config/credentials/development.key
 
-# Personal docs/notesexample/rails_app/storage/*.sqlite3 
+# Personal docs/notes
+
+# Example Rails app — runtime DBs, logs and tmp must not be committed
+example/rails_app/storage/*.sqlite3
+example/rails_app/storage/*.sqlite3-*
 example/rails_app/log/*.log
+example/rails_app/tmp/
+*.gem

@@ -32,7 +32,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Page number (default: 1)"
             },
             "description": "Page number (default: 1)"
           },
@@ -41,7 +42,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Items per page (max: 100)"
             },
             "description": "Items per page (max: 100)"
           },
@@ -50,25 +52,28 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "Filter by name or description"
             },
             "description": "Filter by name or description"
           },
           {
-            "name": "category",
+            "name": "category_id",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "description": "Filter by category ID"
             },
-            "description": "Filter by category"
+            "description": "Filter by category ID"
           },
           {
             "name": "active",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "Filter by active status"
             },
             "description": "Filter by active status"
           }
@@ -118,15 +123,18 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "Full description"
+                    "description": "Full description",
+                    "nullable": true
                   },
-                  "category": {
-                    "type": "string",
-                    "description": "Category name"
+                  "category_id": {
+                    "type": "integer",
+                    "description": "Category ID",
+                    "nullable": true
                   },
                   "active": {
                     "type": "boolean",
-                    "description": "Active status (default: true)"
+                    "description": "Active status (default: true)",
+                    "nullable": true
                   }
                 },
                 "required": [
@@ -172,7 +180,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Product ID"
             },
             "description": "Product ID"
           }
@@ -209,7 +218,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Product ID"
             },
             "description": "Product ID"
           }
@@ -223,28 +233,34 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "Product name"
+                    "description": "Product name",
+                    "nullable": true
                   },
                   "price": {
                     "type": "number",
                     "format": "float",
-                    "description": "Price in USD"
+                    "description": "Price in USD",
+                    "nullable": true
                   },
                   "stock": {
                     "type": "integer",
-                    "description": "Stock quantity"
+                    "description": "Stock quantity",
+                    "nullable": true
                   },
                   "description": {
                     "type": "string",
-                    "description": "Full description"
+                    "description": "Full description",
+                    "nullable": true
                   },
-                  "category": {
-                    "type": "string",
-                    "description": "Category name"
+                  "category_id": {
+                    "type": "integer",
+                    "description": "Category ID",
+                    "nullable": true
                   },
                   "active": {
                     "type": "boolean",
-                    "description": "Active status"
+                    "description": "Active status",
+                    "nullable": true
                   }
                 }
               }
@@ -286,7 +302,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Product ID"
             },
             "description": "Product ID"
           }
@@ -363,7 +380,11 @@
             "description": "Units in stock"
           },
           "category": {
-            "type": "string",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CategoryEntity"
+              }
+            ],
             "description": "Product category",
             "nullable": true
           },
@@ -388,6 +409,23 @@
           "price",
           "stock",
           "active"
+        ]
+      },
+      "CategoryEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Category ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Category name"
+          }
+        },
+        "required": [
+          "id",
+          "name"
         ]
       }
     },

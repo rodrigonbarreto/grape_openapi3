@@ -12,8 +12,17 @@ module TestEntities
   class UserEntity < Grape::Entity
     expose :id,    documentation: { type: Integer, desc: "User ID",        required: true }
     expose :name,  documentation: { type: String,  desc: "Full name",      required: true }
-    expose :email, documentation: { type: String,  desc: "Email address",  required: false, nullable: true }
-    expose :score, documentation: { type: Float,   desc: "Score",          required: false }
+    expose :email,
+           documentation: { type: String, desc: "Email address", required: false, nullable: true,
+                            format: "email", example: "jane@example.com" }
+    expose :score,
+           documentation: { type: Float, desc: "Score", required: false, minimum: 0, maximum: 100 }
+    expose :status,
+           documentation: { type: String, desc: "Account status", required: true,
+                            values: %w[active suspended closed], default: "active" }
+    expose :roles,
+           documentation: { type: [String], desc: "Roles", required: false,
+                            values: %w[admin member guest] }
     expose :address,
            using: AddressEntity,
            documentation: { desc: "Home address", required: false, nullable: true }

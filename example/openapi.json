@@ -19,6 +19,10 @@
     {
       "name": "products",
       "description": "Product management"
+    },
+    {
+      "name": "reports",
+      "description": "Reporting endpoints"
     }
   ],
   "paths": {
@@ -35,7 +39,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Page number (default: 1)"
             },
             "description": "Page number (default: 1)"
           },
@@ -44,7 +49,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Items per page (default: 20)"
             },
             "description": "Items per page (default: 20)"
           },
@@ -53,7 +59,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "Search by name or description"
             },
             "description": "Search by name or description"
           },
@@ -62,7 +69,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Filter by category"
             },
             "description": "Filter by category"
           },
@@ -71,7 +79,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "Filter by active status"
             },
             "description": "Filter by active status"
           }
@@ -120,28 +129,91 @@
                   },
                   "description": {
                     "type": "string",
-                    "description": "Product description"
+                    "description": "Product description",
+                    "nullable": true
                   },
                   "category_id": {
                     "type": "integer",
-                    "description": "Category ID"
+                    "description": "Category ID (belongs_to category)",
+                    "nullable": true
+                  },
+                  "supplier_id": {
+                    "type": "integer",
+                    "description": "Supplier ID (belongs_to supplier)",
+                    "nullable": true
                   },
                   "active": {
                     "type": "boolean",
-                    "description": "Active status (default: true)"
+                    "description": "Active status (default: true)",
+                    "nullable": true
                   },
                   "tags": {
                     "type": "array",
                     "items": {
                       "type": "string"
                     },
-                    "description": "Tag list"
+                    "description": "Tag list",
+                    "nullable": true
+                  },
+                  "dimensions": {
+                    "type": "object",
+                    "properties": {
+                      "width": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Width in cm"
+                      },
+                      "height": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Height in cm"
+                      },
+                      "depth": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Depth in cm",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "width",
+                      "height"
+                    ],
+                    "description": "Physical dimensions"
+                  },
+                  "variants": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sku": {
+                          "type": "string",
+                          "description": "Variant SKU"
+                        },
+                        "color": {
+                          "type": "string",
+                          "description": "Color",
+                          "nullable": true
+                        },
+                        "stock": {
+                          "type": "integer",
+                          "description": "Variant stock",
+                          "nullable": true
+                        }
+                      },
+                      "required": [
+                        "sku"
+                      ]
+                    },
+                    "description": "Product variants",
+                    "nullable": true
                   }
                 },
                 "required": [
                   "name",
                   "price",
-                  "stock"
+                  "stock",
+                  "dimensions"
                 ]
               }
             }
@@ -228,24 +300,29 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "Product name"
+                    "description": "Product name",
+                    "nullable": true
                   },
                   "price": {
                     "type": "number",
                     "format": "float",
-                    "description": "Price in USD"
+                    "description": "Price in USD",
+                    "nullable": true
                   },
                   "stock": {
                     "type": "integer",
-                    "description": "Stock quantity"
+                    "description": "Stock quantity",
+                    "nullable": true
                   },
                   "description": {
                     "type": "string",
-                    "description": "Product description"
+                    "description": "Product description",
+                    "nullable": true
                   },
                   "active": {
                     "type": "boolean",
-                    "description": "Active status"
+                    "description": "Active status",
+                    "nullable": true
                   }
                 }
               }
@@ -362,6 +439,30 @@
           }
         }
       }
+    },
+    "/reports/categories": {
+      "get": {
+        "operationId": "listReportCategories",
+        "summary": "Category sales report",
+        "tags": [
+          "reports"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reports_CategoryEntity"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -396,10 +497,12 @@
         "properties": {
           "id": {
             "type": "integer",
+            "example": 42,
             "description": "Product ID"
           },
           "name": {
             "type": "string",
+            "example": "Wireless Mouse",
             "description": "Product name"
           },
           "description": {
@@ -410,11 +513,29 @@
           "price": {
             "type": "number",
             "format": "float",
+            "minimum": 0,
+            "example": 29.9,
             "description": "Price in USD"
           },
           "stock": {
             "type": "integer",
+            "minimum": 0,
             "description": "Units in stock"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ],
+            "default": "draft",
+            "description": "Product status"
+          },
+          "sku": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Stock keeping unit"
           },
           "active": {
             "type": "boolean",
@@ -430,10 +551,19 @@
           "category": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/CategoryEntity"
+                "$ref": "#/components/schemas/Entities_CategoryEntity"
               }
             ],
             "description": "Product category",
+            "nullable": true
+          },
+          "supplier": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SupplierEntity"
+              }
+            ],
+            "description": "Product supplier",
             "nullable": true
           }
         },
@@ -442,10 +572,12 @@
           "name",
           "price",
           "stock",
+          "status",
+          "sku",
           "active"
         ]
       },
-      "CategoryEntity": {
+      "Entities_CategoryEntity": {
         "type": "object",
         "properties": {
           "id": {
@@ -455,6 +587,28 @@
           "name": {
             "type": "string",
             "description": "Category name"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "SupplierEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Supplier ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Supplier name"
+          },
+          "email": {
+            "type": "string",
+            "description": "Contact email",
+            "nullable": true
           }
         },
         "required": [
@@ -472,6 +626,29 @@
         },
         "required": [
           "message"
+        ]
+      },
+      "Reports_CategoryEntity": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Category name"
+          },
+          "product_count": {
+            "type": "integer",
+            "description": "Products in category"
+          },
+          "revenue": {
+            "type": "number",
+            "format": "float",
+            "description": "Total revenue"
+          }
+        },
+        "required": [
+          "name",
+          "product_count",
+          "revenue"
         ]
       }
     },

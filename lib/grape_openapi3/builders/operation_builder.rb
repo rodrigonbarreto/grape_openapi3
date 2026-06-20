@@ -81,8 +81,13 @@ module GrapeOpenapi3
         entity = @route[:success_entity]
         return { "description" => "Success" } unless entity
 
-        # Unpack hash form: { code: 201, message: "Created", model: ProductEntity }
-        description, entity_class = unpack_success(entity)
+        # Unpack hash form: { code: 201, message: "Created", model: ProductEntity, schema: {...} }
+        description, entity_class, inline_schema = unpack_success(entity)
+
+        if inline_schema
+          media = @route[:produces].first || "application/json"
+          return { "description" => description, "content" => { media => { "schema" => inline_schema } } }
+        end
 
         unless entity_class
           return { "description" => description }
@@ -98,19 +103,20 @@ module GrapeOpenapi3
         { "description" => description, "content" => { media => { "schema" => schema } } }
       end
 
-      # Returns [description_string, entity_class_or_nil].
-      # Accepts both the bare-class form and the hash form.
+      # Returns [description_string, entity_class_or_nil, inline_schema_or_nil].
+      # Accepts the bare-class form, the hash form with :model, and the hash form with :schema.
       def unpack_success(entity)
         if entity.is_a?(Class)
-          return ["Success", entity]
+          return ["Success", entity, nil]
         end
 
-        return ["Success", nil] unless entity.is_a?(Hash)
+        return ["Success", nil, nil] unless entity.is_a?(Hash)
 
-        message = entity[:message] || entity["message"] || "Success"
-        model   = entity[:model]   || entity["model"]
-        klass   = model.is_a?(Class) ? model : nil
-        [message, klass]
+        message       = entity[:message] || entity["message"] || "Success"
+        model         = entity[:model]   || entity["model"]
+        inline_schema = entity[:schema]  || entity["schema"]
+        klass         = model.is_a?(Class) ? model : nil
+        [message, klass, inline_schema]
       end
     end
   end

@@ -15,11 +15,14 @@ module GrapeOpenapi3
     end
 
     def build
-      entity_reader = Readers::EntityReader.new
+      entity_reader = Readers::EntityReader.new(separator: @config.schema_name_separator)
 
       route_list = @app.routes
         .map  { |r| Readers::RouteReader.call(r) }
         .compact
+
+      # Pre-scan all reachable entities so schema names are stable and collision-free.
+      entity_reader.prepare(route_list.flat_map { |rd| success_entity_classes(rd) })
 
       paths      = build_paths(route_list, entity_reader)
       components = build_components(entity_reader)
@@ -38,6 +41,18 @@ module GrapeOpenapi3
     end
 
     private
+
+    # The Grape::Entity class(es) referenced by a route's success response, if any.
+    # Handles both the bare-class form and the hash form ({ model: SomeEntity }).
+    def success_entity_classes(route_data)
+      entity = route_data[:success_entity]
+      klass  = if entity.is_a?(Class)
+                 entity
+               elsif entity.is_a?(Hash)
+                 entity[:model] || entity["model"]
+               end
+      klass.is_a?(Class) ? [klass] : []
+    end
 
     def build_paths(route_list, entity_reader)
       route_list.each_with_object({}) do |route_data, paths|

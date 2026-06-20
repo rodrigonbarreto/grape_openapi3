@@ -37,9 +37,24 @@ module ProductsAPI
         requires :price,       type: Float,   desc: "Price in USD"
         requires :stock,       type: Integer, desc: "Initial stock quantity"
         optional :description, type: String,  desc: "Product description"
-        optional :category_id, type: Integer, desc: "Category ID"
+        optional :category_id, type: Integer, desc: "Category ID (belongs_to category)"
+        optional :supplier_id, type: Integer, desc: "Supplier ID (belongs_to supplier)"
         optional :active,      type: Grape::API::Boolean, desc: "Active status (default: true)"
         optional :tags,        type: [String], desc: "Tag list"
+
+        # Nested object param → rebuilt as a nested object schema (fix #2)
+        requires :dimensions, type: Hash, desc: "Physical dimensions" do
+          requires :width,  type: Float, desc: "Width in cm"
+          requires :height, type: Float, desc: "Height in cm"
+          optional :depth,  type: Float, desc: "Depth in cm"
+        end
+
+        # Nested array-of-objects param → rebuilt as array of object schemas (fix #2)
+        optional :variants, type: Array, desc: "Product variants" do
+          requires :sku,   type: String,  desc: "Variant SKU"
+          optional :color, type: String,  desc: "Color"
+          optional :stock, type: Integer, desc: "Variant stock"
+        end
       end
       post do
         {}
@@ -109,6 +124,19 @@ module ProductsAPI
         post "image" do
           {}
         end
+      end
+    end
+
+    # Reports use a DIFFERENT CategoryEntity (same short name, different module).
+    # The generator names the two schemas distinctly — no silent overwrite (fix #1).
+    resource :reports do
+      desc "Category sales report", {
+        success: Reports::CategoryEntity,
+        failure: [{ code: 401, message: "Unauthorized" }],
+        tags:    ["reports"],
+      }
+      get "categories" do
+        {}
       end
     end
   end

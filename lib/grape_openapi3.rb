@@ -44,13 +44,15 @@ module GrapeOpenapi3
     #     },
     #     security: [{ "Bearer" => [] }]
     #   )
-    def generate(app, info:, servers: [], security_schemes: {}, security: [], tags: [])
+    def generate(app, info:, servers: [], security_schemes: {}, security: [], tags: [],
+                 schema_name_separator: "_")
       config = Config.new(
-        info:             info,
-        servers:          servers,
-        security_schemes: security_schemes,
-        security:         security,
-        tags:             tags,
+        info:                  info,
+        servers:               servers,
+        security_schemes:      security_schemes,
+        security:              security,
+        tags:                  tags,
+        schema_name_separator: schema_name_separator,
       )
       Document.build(app, config)
     end

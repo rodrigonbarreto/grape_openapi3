@@ -5,6 +5,7 @@ require "grape"
 require "grape-entity"
 
 require_relative "support/test_entities"
+require_relative "support/collision_entities"
 require_relative "support/test_api"
 
 RSpec.configure do |config|

@@ -32,6 +32,7 @@ doc = GrapeOpenapi3.generate(
   security: [{ "Bearer" => [] }],
   tags: [
     { name: "products", description: "Product management" },
+    { name: "reports",  description: "Reporting endpoints" },
   ],
 )
 
