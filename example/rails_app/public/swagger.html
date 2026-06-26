@@ -1,20 +1,53 @@
+<!--
+  Plain, dependency-free Swagger UI loaded from a CDN. Rails serves public/ as
+  static files, so this page just works — no gem to add.
+
+  ALTERNATIVE: you can also serve the UI through the `rswag-ui` gem (what the real
+  ez-plan-be app does, since it already had rswag for its legacy Swagger 2.0 specs).
+  Add `gem "rswag-ui"` to the Gemfile, mount it in config/routes.rb
+  (`mount Rswag::Ui::Engine => "/api-docs"`) and point it at this same live endpoint:
+
+    # config/initializers/rswag_ui.rb
+    Rswag::Ui.configure do |c|
+      c.swagger_endpoint "/api/v1/openapi", "Products API V1 (OpenAPI 3.0)"
+    end
+
+  Both approaches read the exact same JSON from GrapeOpenapi3 — rswag-ui only adds a
+  built-in mount point + a multi-version document selector. We keep the plain HTML
+  here on purpose, to show the gem needs zero extra dependencies.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Products API – Swagger UI</title>
+  <link rel="icon" href="data:," />
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <style>
+    body { margin: 0; background: #fafafa; }
+    /* Hide the default Swagger UI top bar (the "Explore" URL input). */
+    .swagger-ui .topbar { display: none; }
+  </style>
 </head>
 <body>
   <div id="swagger-ui"></div>
   <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
   <script>
-    SwaggerUIBundle({
+    window.ui = SwaggerUIBundle({
+      // Live OpenAPI 3.0 document, generated per request from the Grape routes.
       url: "/api/v1/openapi",
       dom_id: "#swagger-ui",
-      presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIBundle.SwaggerUIStandalonePreset,
+      ],
       layout: "BaseLayout",
       deepLinking: true,
+      displayRequestDuration: true,
+      tryItOutEnabled: true,
+      persistAuthorization: true,
     });
   </script>
 </body>
